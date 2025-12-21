@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "nopm",
+  "version": "0.0.1",
+  "description": "Claude Code marketplace for automating performance management",
+  "owner": {
+    "name": "droctothorpe",
+    "email": "mythicalsunlight@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "nopm",
+      "description": "Claude code plugin for automating performance management",
+      "source": "./claude/plugins/nopm"
+    }
+  ]
+}
