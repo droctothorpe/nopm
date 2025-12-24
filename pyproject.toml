@@ -26,6 +26,9 @@ docx = [
 test = [
   "pytest",
 ]
+jupyter = [
+  "ipywidgets"
+]
 
 dev = ["nopm[test,doc,docx]"]
 
