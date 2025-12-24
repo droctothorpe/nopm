@@ -36,6 +36,23 @@ def _is_svg(content: str) -> bool:
     
     return True
 
+def _try_repair_svg(content: str) -> str:
+    content = content.strip()
+    content = (
+        content.removeprefix("```\n")
+        .removeprefix("```xml\n")
+        .removeprefix("```svg\n")
+        .removesuffix("```")
+    )
+
+    if _is_svg(content):
+        logger.debug("Repair successful.")
+    else:
+        logger.error("Unable to repair generated as SVG: %s" % content)
+        raise ValueError("Generated content is not SVG and repairs failed.")
+
+    return content
+
 class Figure:
     def __init__(self, model_provider: ModelProvider):
         self.model_provider = model_provider
@@ -46,9 +63,7 @@ class Figure:
 
         # Check svg
         if not _is_svg(content):
-            logger.warning("Generated content was not SVG:")
-            logger.warning(content)
-            raise ValueError("Generated content was not SVG")
+            content = _try_repair_svg(content)
         
         with open(file_name, "w") as f:
             f.write(content)

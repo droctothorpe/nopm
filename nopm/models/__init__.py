@@ -3,18 +3,25 @@ import yaml
 
 from nopm.models.base import ModelProvider
 
+# Check for openai sdk
 if importlib.util.find_spec("openai"):
     OPENAI_AVAILABLE = True
 
     from .openai import OpenAIProvider, OpenAIConfig
 else:
     OPENAI_AVAILABLE = False
-
+# Check for ollama sdk
 if importlib.util.find_spec("ollama"):
     OLLAMA_AVAILABLE = True
     from .ollama import OllamaProvider, OllamaConfig
 else:
     OLLAMA_AVAILABLE = False
+# Check for anthropic sdk
+if importlib.util.find_spec("anthropic"):
+    ANTHROPIC_AVAILABLE = True
+    from .anthropic import AnthropicProvider, AnthropicConfig
+else:
+    ANTHROPIC_AVAILABLE = False
 
 def provider_from_config_path(config_path: str) -> ModelProvider:
     with open(config_path) as f:
@@ -38,5 +45,11 @@ def provider_from_config_data(config_data: dict) -> ModelProvider:
         
         config = OllamaConfig.model_validate(config_data)
         return OllamaProvider(config)
+    elif provider_type == "anthropic":
+        if not ANTHROPIC_AVAILABLE:
+            raise RuntimeError("Config specified Anthropic as the provider but it is not installed, use `python -m pip install anthropic` to install it.")
+        
+        config = AnthropicConfig.model_validate(config_data)
+        return AnthropicProvider(config)
     else:
         raise ValueError(f"Unknown provider type: {provider_type}")

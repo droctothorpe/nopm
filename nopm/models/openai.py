@@ -8,8 +8,8 @@ from .base import ModelConfig, ModelProvider
 logger = logging.getLogger(__name__) 
 
 class OpenAIClientOptions(BaseModel):
-    base_url: str
-    api_key: str
+    base_url: str | None = None
+    api_key: str | None = None
 
 class OpenAIConfig(ModelConfig):
     provider: Literal["openai"] = "openai"

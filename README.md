@@ -82,6 +82,20 @@ client:
 model: gpt-4o
 ```
 
+### Anthropic
+
+```bash
+python -m pip install anthropic
+```
+
+```yaml
+provider: anthropic
+client:
+    api_key: <your-anthropic-api-key>
+max_tokens: 4096
+model: claude-sonnet-4-5-20250929
+```
+
 ## Development setup
 
 Create an environment and install this package:
