@@ -32,5 +32,5 @@ dev = ["nopm[test,doc,docx]"]
 [project.scripts]
 nopm = "nopm.cli:main"
 
-[tool.setuptools]
-packages = ["nopm"]
+[tool.setuptools.packages.find]
+include = ["nopm*"]
