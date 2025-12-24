@@ -14,15 +14,22 @@ authors = [
 license = { text = "MIT" }
 dependencies = [
   "requests>=2.31.0",
+  "pydantic",
+  "pyyaml",
 ]
 
 [project.optional-dependencies]
 docx = [
   "python-docx>=1.1.0",
 ]
+test = [
+  "pytest",
+]
+
+dev = ["nopm[test,doc,docx]"]
 
 [project.scripts]
 nopm = "nopm.cli:main"
 
-[tool.setuptools]
-packages = ["nopm"]
+[tool.setuptools.packages.find]
+include = ["nopm*"]

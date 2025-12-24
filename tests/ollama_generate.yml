@@ -1,0 +1,4 @@
+provider: ollama
+model: gpt-oss:120b-cloud
+# https://docs.ollama.com/api/generate
+method: generate
