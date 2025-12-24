@@ -8,8 +8,12 @@ That's the rationale behind NoPM, a suite of tools for automating performance ma
 
 ## Installation
 
-```
+```bash
 python -m pip install git+https://github.com/droctothorpe/nopm.git
+
+# Install from a branch
+export BRANCH=figures
+python -m pip install git+https://github.com/droctothorpe/nopm.git@${BRANCH}
 ```
 
 ## Usage
@@ -65,11 +69,11 @@ model: gpt-oss:120b-cloud
 method: generate
 ```
 
+### OpenAI
+
 ```bash
 python -m pip install openai
 ```
-
-### OpenAI
 
 ```yaml
 provider: openai
