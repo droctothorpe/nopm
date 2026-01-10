@@ -1,0 +1,7 @@
+provider: openai
+# These point towards Ollama's compatibility API
+# https://docs.ollama.com/api/openai-compatibility
+client:
+    base_url: http://localhost:11434/v1
+    api_key: ollama
+model: gpt-oss:120b-cloud
