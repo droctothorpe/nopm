@@ -1,3 +1,4 @@
+import os
 import importlib.util
 import yaml
 
@@ -25,8 +26,17 @@ else:
 
 def provider_from_config_path(config_path: str) -> ModelProvider:
     with open(config_path) as f:
-        config = yaml.safe_load(f)
+        config_str = f.read()
 
+    env_vars = {}
+    for v in ("ANTHROPIC_API_KEY", "OPENAI_API_KEY"):
+        if v in os.environ:
+            env_vars[v] = os.environ[v]
+
+    # Render config string with selected env vars
+    config_str = config_str.format(**env_vars)
+
+    config = yaml.safe_load(config_str)
     return provider_from_config_data(config)
 
 def provider_from_config_data(config_data: dict) -> ModelProvider:
@@ -36,19 +46,19 @@ def provider_from_config_data(config_data: dict) -> ModelProvider:
     if provider_type == "openai":
         if not OPENAI_AVAILABLE:
             raise RuntimeError("Config specified OpenAI as the provider but it is not installed, use `python -m pip install openai` to install it.")
-        
+
         config = OpenAIConfig.model_validate(config_data)
         return OpenAIProvider(config)
     elif provider_type == "ollama":
         if not OLLAMA_AVAILABLE:
             raise RuntimeError("Config specified Ollama as the provider but it is not installed, use `python -m pip install ollama` to install it.")
-        
+
         config = OllamaConfig.model_validate(config_data)
         return OllamaProvider(config)
     elif provider_type == "anthropic":
         if not ANTHROPIC_AVAILABLE:
             raise RuntimeError("Config specified Anthropic as the provider but it is not installed, use `python -m pip install anthropic` to install it.")
-        
+
         config = AnthropicConfig.model_validate(config_data)
         return AnthropicProvider(config)
     else:
